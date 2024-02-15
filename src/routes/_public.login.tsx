@@ -6,7 +6,7 @@ import { z } from "zod";
 import { supabase } from "../utils/auth";
 import LoginButton from "../components/login-button";
 
-export const Route = createFileRoute("/login")({
+export const Route = createFileRoute("/_public/login")({
   validateSearch: z.object({
     redirect: z.string().optional(),
   }),

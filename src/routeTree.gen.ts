@@ -11,16 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as LoginImport } from './routes/login'
+import { Route as PublicImport } from './routes/_public'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as AuthIndexImport } from './routes/_auth.index'
+import { Route as PublicLoginImport } from './routes/_public.login'
 import { Route as AuthProfileImport } from './routes/_auth.profile'
 import { Route as AuthPoliciesImport } from './routes/_auth.policies'
 
 // Create/Update Routes
 
-const LoginRoute = LoginImport.update({
-  path: '/login',
+const PublicRoute = PublicImport.update({
+  id: '/_public',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -32,6 +33,11 @@ const AuthRoute = AuthImport.update({
 const AuthIndexRoute = AuthIndexImport.update({
   path: '/',
   getParentRoute: () => AuthRoute,
+} as any)
+
+const PublicLoginRoute = PublicLoginImport.update({
+  path: '/login',
+  getParentRoute: () => PublicRoute,
 } as any)
 
 const AuthProfileRoute = AuthProfileImport.update({
@@ -52,8 +58,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
-    '/login': {
-      preLoaderRoute: typeof LoginImport
+    '/_public': {
+      preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
     }
     '/_auth/policies': {
@@ -63,6 +69,10 @@ declare module '@tanstack/react-router' {
     '/_auth/profile': {
       preLoaderRoute: typeof AuthProfileImport
       parentRoute: typeof AuthImport
+    }
+    '/_public/login': {
+      preLoaderRoute: typeof PublicLoginImport
+      parentRoute: typeof PublicImport
     }
     '/_auth/': {
       preLoaderRoute: typeof AuthIndexImport
@@ -75,7 +85,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   AuthRoute.addChildren([AuthPoliciesRoute, AuthProfileRoute, AuthIndexRoute]),
-  LoginRoute,
+  PublicRoute.addChildren([PublicLoginRoute]),
 ])
 
 /* prettier-ignore-end */
