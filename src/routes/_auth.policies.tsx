@@ -2,15 +2,17 @@ import * as React from "react";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_auth/policies")({
-  component: PoliciesComponent,
+	component: PoliciesComponent,
 });
 
 function PoliciesComponent() {
-  const { username } = Route.useRouteContext();
+	const {
+		auth: { username },
+	} = Route.useRouteContext();
 
-  return (
-    <div className="p-2 space-y-2">
-      <div>hey</div>
-    </div>
-  );
+	return (
+		<div className='p-2 space-y-2'>
+			<div>hey</div>
+		</div>
+	);
 }

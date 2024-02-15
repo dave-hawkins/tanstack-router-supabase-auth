@@ -3,7 +3,6 @@ import {
   Link,
   Outlet,
   createRootRouteWithContext,
-  useRouterState,
   useRouter,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
