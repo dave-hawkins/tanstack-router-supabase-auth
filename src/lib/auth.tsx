@@ -15,9 +15,8 @@ const AuthContext = React.createContext<AuthContext | null>(null);
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 	children,
 }) => {
-	const [status, setStatus] =
-		React.useState<AuthContext["status"]>("loggedOut");
 	const [session, setSession] = React.useState<Session | null>(null);
+	const status: AuthContext["status"] = session ? "loggedIn" : "loggedOut";
 
 	const login: AuthContext["login"] = React.useCallback(
 		async (provider = "google") => {
@@ -37,11 +36,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	const logout: AuthContext["logout"] = React.useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
+		setSession(null);
 		if (error) {
 			console.error("Logout failed:", error.message);
 			return;
 		}
-		setStatus("loggedOut");
 
 		/**
 		if (!error) {
