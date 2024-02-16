@@ -1,12 +1,10 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 import * as React from "react";
 
 export const Route = createFileRoute("/_public/auth-callback")({
 	component: () => <div>Hello /_public/auth-callback!</div>,
 
-	loader: async ({ preload, context, navigate }) => {
-		if (preload) return;
-
+	loader: async () => {
 		let redirectUrl = "/";
 
 		const localStorageRedirectUrl = window.localStorage.getItem("redirectUrl");
@@ -15,8 +13,10 @@ export const Route = createFileRoute("/_public/auth-callback")({
 			window.localStorage.removeItem("redirectUrl");
 		}
 
-		await navigate({ to: redirectUrl });
+		if (redirectUrl.includes("/login")) {
+			redirectUrl = "/";
+		}
 
-		console.log("loader auth", context.auth);
+		throw redirect({ to: redirectUrl });
 	},
 });

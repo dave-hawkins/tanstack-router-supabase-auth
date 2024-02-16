@@ -25,16 +25,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 				case "google":
 				default:
 					window.localStorage.setItem("redirectUrl", redirectUrl);
-					const response = await supabase.auth.signInWithOAuth({
+
+					await supabase.auth.signInWithOAuth({
 						provider: "google",
 						options: {
 							redirectTo: `${window.location.origin}/auth-callback`,
 						},
 					});
-					console.log(
-						"AuthProvider.login -> response",
-						JSON.stringify(response)
-					);
+
 					// supabase.auth.getSession().then(({ data }) => {});
 					// console.log("login with google");
 					break;
@@ -50,15 +48,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 			console.error("Logout failed:", error.message);
 			return;
 		}
-
-		/**
-		if (!error) {
-      auth.status = "loggedOut";
-      auth.username = undefined;
-    } else {
-      console.error("Logout failed:", error.message);
-    }
-		 */
+		window.location.reload();
 	}, []);
 
 	// event listener for auth state changes
@@ -82,7 +72,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 	}, []);
 
 	// console.log("🚀 ~ AuthProvider ~ session", session);
-	console.log("🚀 ~ AuthProvider ~ status", status);
+	// console.log("🚀 ~ AuthProvider ~ status", status);
 
 	return (
 		<AuthContext.Provider

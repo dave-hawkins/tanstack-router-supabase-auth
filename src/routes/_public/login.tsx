@@ -17,10 +17,10 @@ function LoginComponent() {
 	const search = routeApi.useSearch();
 	const auth = useAuth();
 
-	console.log("search", search);
-
 	if (auth.status === "loggedIn") {
-		return <Navigate to={search.redirect || "/"} replace={true} />;
+		const redirectUrl = search.redirect || "/";
+
+		return <Navigate to={redirectUrl} replace={true} />;
 	}
 
 	return (
@@ -36,7 +36,6 @@ const LoginButton = () => {
 
 	const loginWithGoogle = async () => {
 		await auth.login("google");
-		console.log("called logged in");
 	};
 
 	return (
