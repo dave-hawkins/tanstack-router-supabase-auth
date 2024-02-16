@@ -1,6 +1,6 @@
 import React from "react"; // Ensure this import is at the top of your file
 
-import { createFileRoute } from "@tanstack/react-router";
+import { Navigate, createFileRoute, getRouteApi } from "@tanstack/react-router";
 import { z } from "zod";
 import { useAuth } from "../../lib/auth";
 
@@ -11,7 +11,18 @@ export const Route = createFileRoute("/_public/login")({
 	component: LoginComponent,
 });
 
+const routeApi = getRouteApi("/_public/login");
+
 function LoginComponent() {
+	const search = routeApi.useSearch();
+	const auth = useAuth();
+
+	console.log("search", search);
+
+	if (auth.status === "loggedIn") {
+		return <Navigate to={search.redirect || "/"} replace={true} />;
+	}
+
 	return (
 		<div className='p-2 h-screen bg-gray-100 w-full flex flex-col'>
 			<div>Please log in.</div>

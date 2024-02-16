@@ -11,6 +11,9 @@ import type { AuthContext } from "../lib/auth";
 export const Route = createRootRouteWithContext<{
 	auth: AuthContext;
 }>()({
+	beforeLoad: async ({ context }) => {
+		await context.auth.client.auth.initialize();
+	},
 	component: RootComponent,
 });
 
@@ -56,7 +59,9 @@ function RootComponent() {
 							})}
 							<button
 								onClick={() => {
-									auth.logout().then(router.invalidate);
+									auth.logout().then(() => {
+										window.location.reload();
+									});
 								}}
 								className='text-sm bg-blue-500 text-white border inline-block py-1 px-2 rounded'
 							>

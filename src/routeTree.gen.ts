@@ -15,6 +15,7 @@ import { Route as PublicImport } from './routes/_public'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as AuthIndexImport } from './routes/_auth/index'
 import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as PublicAuthCallbackImport } from './routes/_public/auth-callback'
 import { Route as AuthProfileImport } from './routes/_auth/profile'
 
 // Create/Update Routes
@@ -39,6 +40,11 @@ const PublicLoginRoute = PublicLoginImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
+const PublicAuthCallbackRoute = PublicAuthCallbackImport.update({
+  path: '/auth-callback',
+  getParentRoute: () => PublicRoute,
+} as any)
+
 const AuthProfileRoute = AuthProfileImport.update({
   path: '/profile',
   getParentRoute: () => AuthRoute,
@@ -60,6 +66,10 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthProfileImport
       parentRoute: typeof AuthImport
     }
+    '/_public/auth-callback': {
+      preLoaderRoute: typeof PublicAuthCallbackImport
+      parentRoute: typeof PublicImport
+    }
     '/_public/login': {
       preLoaderRoute: typeof PublicLoginImport
       parentRoute: typeof PublicImport
@@ -75,7 +85,7 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren([
   AuthRoute.addChildren([AuthProfileRoute, AuthIndexRoute]),
-  PublicRoute.addChildren([PublicLoginRoute]),
+  PublicRoute.addChildren([PublicAuthCallbackRoute, PublicLoginRoute]),
 ])
 
 /* prettier-ignore-end */
