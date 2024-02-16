@@ -32,9 +32,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 							redirectTo: `${window.location.origin}/auth-callback`,
 						},
 					});
-
-					// supabase.auth.getSession().then(({ data }) => {});
-					// console.log("login with google");
 					break;
 			}
 		},
@@ -43,7 +40,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	const logout: AuthContext["logout"] = React.useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
-		// setSession(null);
 		if (error) {
 			console.error("Logout failed:", error.message);
 			return;
@@ -54,25 +50,17 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 	// event listener for auth state changes
 	React.useEffect(() => {
 		supabase.auth.getSession().then(({ data }) => {
-			// console.log("🚀 ~ AuthProvider React.useEffect getSession ~ data", data);
 			setSession(data.session);
 		});
 
 		const {
 			data: { subscription },
 		} = supabase.auth.onAuthStateChange((_event, newSessionState) => {
-			// console.log(
-			// 	"🚀 ~ AuthProvider React.useEffect onAuthStateChange ~ _event:",
-			// 	_event
-			// );
 			setSession(newSessionState);
 		});
 
 		return () => subscription.unsubscribe();
 	}, []);
-
-	// console.log("🚀 ~ AuthProvider ~ session", session);
-	// console.log("🚀 ~ AuthProvider ~ status", status);
 
 	return (
 		<AuthContext.Provider

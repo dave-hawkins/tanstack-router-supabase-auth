@@ -1,5 +1,5 @@
-import { createFileRoute, redirect } from "@tanstack/react-router";
 import * as React from "react";
+import { createFileRoute, redirect } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/_public/auth-callback")({
 	component: () => <div>Hello /_public/auth-callback!</div>,
@@ -11,7 +11,6 @@ export const Route = createFileRoute("/_public/auth-callback")({
 		if (localStorageRedirectUrl) {
 			redirectUrl = localStorageRedirectUrl;
 		}
-		console.log("redirectUrl", redirectUrl);
 
 		if (redirectUrl.includes("/login")) {
 			redirectUrl = "/";
