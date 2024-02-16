@@ -6,10 +6,10 @@ import {
 	useRouter,
 } from "@tanstack/react-router";
 import { TanStackRouterDevtools } from "@tanstack/router-devtools";
-import { Auth } from "../utils/auth";
+import type { AuthContext } from "../lib/auth";
 
 export const Route = createRootRouteWithContext<{
-	auth: Auth;
+	auth: AuthContext;
 }>()({
 	component: RootComponent,
 });
@@ -56,8 +56,7 @@ function RootComponent() {
 							})}
 							<button
 								onClick={() => {
-									auth.logout();
-									router.invalidate();
+									auth.logout().then(router.invalidate);
 								}}
 								className='text-sm bg-blue-500 text-white border inline-block py-1 px-2 rounded'
 							>

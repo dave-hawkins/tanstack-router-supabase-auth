@@ -2,7 +2,7 @@ import React from "react"; // Ensure this import is at the top of your file
 
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { auth } from "../../utils/auth";
+import { useAuth } from "../../lib/auth";
 
 export const Route = createFileRoute("/_public/login")({
 	validateSearch: z.object({
@@ -21,9 +21,11 @@ function LoginComponent() {
 }
 
 const LoginButton = () => {
+	const auth = useAuth();
+
 	const loginWithGoogle = async () => {
-		await auth.login();
-		console.log("LoginButton auth.status", auth.status); // Logging the auth status, consider handling any errors or state updates here
+		await auth.login("google");
+		console.log("called logged in");
 	};
 
 	return (

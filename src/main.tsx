@@ -1,11 +1,11 @@
-import * as React from "react";
-import ReactDOM from "react-dom/client";
 import {
-	RouterProvider,
 	ErrorComponent,
+	RouterProvider,
 	createRouter,
 } from "@tanstack/react-router";
-import { auth } from "./utils/auth";
+import * as React from "react";
+import ReactDOM from "react-dom/client";
+import { AuthProvider, useAuth } from "./lib/auth";
 import { routeTree } from "./routeTree.gen";
 
 const router = createRouter({
@@ -25,15 +25,23 @@ declare module "@tanstack/react-router" {
 
 function App() {
 	return (
-		<>
-			<RouterProvider
-				router={router}
-				defaultPreload='intent'
-				context={{
-					auth,
-				}}
-			/>
-		</>
+		<AuthProvider>
+			<InnerApp />
+		</AuthProvider>
+	);
+}
+
+function InnerApp() {
+	const auth = useAuth();
+
+	return (
+		<RouterProvider
+			router={router}
+			defaultPreload='intent'
+			context={{
+				auth,
+			}}
+		/>
 	);
 }
 
