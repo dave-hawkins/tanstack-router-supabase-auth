@@ -9,10 +9,7 @@ import { useAuth } from "../lib/auth";
 
 export const Route = createFileRoute("/_auth")({
 	beforeLoad: ({ context, location }) => {
-		if (
-			context.auth.status !== "loggedIn" &&
-			!window.localStorage.getItem("redirectUrl")
-		) {
+		if (context.auth.status !== "loggedIn") {
 			throw redirect({
 				to: "/login",
 				search: {
@@ -28,7 +25,7 @@ function AuthLayout() {
 	const auth = useAuth();
 
 	return (
-		<>
+		<div className={`flex-1 flex`}>
 			<div className={`divide-y w-56 border-r`}>
 				{(
 					[
@@ -69,6 +66,6 @@ function AuthLayout() {
 				</button>
 			</div>
 			<Outlet />
-		</>
+		</div>
 	);
 }

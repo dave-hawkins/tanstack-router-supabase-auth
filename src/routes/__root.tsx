@@ -16,9 +16,7 @@ function RootComponent() {
 	return (
 		<>
 			<div className={`min-h-screen flex flex-col`}>
-				<div className={`flex-1 flex`}>
-					<Outlet />
-				</div>
+				<Outlet />
 			</div>
 			<TanStackRouterDevtools position='bottom-right' />
 		</>

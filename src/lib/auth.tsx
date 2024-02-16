@@ -43,7 +43,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
 	const logout: AuthContext["logout"] = React.useCallback(async () => {
 		const { error } = await supabase.auth.signOut();
-		setSession(null);
+		// setSession(null);
 		if (error) {
 			console.error("Logout failed:", error.message);
 			return;

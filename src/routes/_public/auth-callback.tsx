@@ -10,8 +10,8 @@ export const Route = createFileRoute("/_public/auth-callback")({
 		const localStorageRedirectUrl = window.localStorage.getItem("redirectUrl");
 		if (localStorageRedirectUrl) {
 			redirectUrl = localStorageRedirectUrl;
-			window.localStorage.removeItem("redirectUrl");
 		}
+		console.log("redirectUrl", redirectUrl);
 
 		if (redirectUrl.includes("/login")) {
 			redirectUrl = "/";

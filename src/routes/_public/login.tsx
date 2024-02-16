@@ -17,31 +17,31 @@ function LoginComponent() {
 	const search = routeApi.useSearch();
 	const auth = useAuth();
 
-	if (auth.status === "loggedIn") {
-		const redirectUrl = search.redirect || "/";
+	const redirectUrl = search.redirect || "/";
 
+	if (auth.status === "loggedIn") {
 		return <Navigate to={redirectUrl} replace={true} />;
 	}
 
 	return (
 		<div className='p-2 h-screen bg-gray-100 w-full flex flex-col'>
 			<div>Please log in.</div>
-			<LoginButton />
+			<LoginButton redirectUrl={redirectUrl} />
 		</div>
 	);
 }
 
-const LoginButton = () => {
+const LoginButton = ({ redirectUrl }: { redirectUrl: string }) => {
 	const auth = useAuth();
 
 	const loginWithGoogle = async () => {
-		await auth.login("google");
+		await auth.login("google", redirectUrl);
 	};
 
 	return (
 		<button
 			onClick={loginWithGoogle}
-			className='text-sm bg-blue-500 text-white border inline-block py-1 px-2 rounded'
+			className='text-sm bg-blue-500 text-white border w-max inline-block py-1 px-2 rounded'
 		>
 			Login with Google
 		</button>
