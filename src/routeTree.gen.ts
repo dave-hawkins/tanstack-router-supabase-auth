@@ -13,10 +13,10 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as PublicImport } from './routes/_public'
 import { Route as AuthImport } from './routes/_auth'
-import { Route as AuthIndexImport } from './routes/_auth.index'
-import { Route as PublicLoginImport } from './routes/_public.login'
-import { Route as AuthProfileImport } from './routes/_auth.profile'
-import { Route as AuthPoliciesImport } from './routes/_auth.policies'
+import { Route as AuthIndexImport } from './routes/_auth/index'
+import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as PublicAuthCallbackImport } from './routes/_public/auth-callback'
+import { Route as AuthProfileImport } from './routes/_auth/profile'
 
 // Create/Update Routes
 
@@ -40,13 +40,13 @@ const PublicLoginRoute = PublicLoginImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
-const AuthProfileRoute = AuthProfileImport.update({
-  path: '/profile',
-  getParentRoute: () => AuthRoute,
+const PublicAuthCallbackRoute = PublicAuthCallbackImport.update({
+  path: '/auth-callback',
+  getParentRoute: () => PublicRoute,
 } as any)
 
-const AuthPoliciesRoute = AuthPoliciesImport.update({
-  path: '/policies',
+const AuthProfileRoute = AuthProfileImport.update({
+  path: '/profile',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -62,13 +62,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
     }
-    '/_auth/policies': {
-      preLoaderRoute: typeof AuthPoliciesImport
-      parentRoute: typeof AuthImport
-    }
     '/_auth/profile': {
       preLoaderRoute: typeof AuthProfileImport
       parentRoute: typeof AuthImport
+    }
+    '/_public/auth-callback': {
+      preLoaderRoute: typeof PublicAuthCallbackImport
+      parentRoute: typeof PublicImport
     }
     '/_public/login': {
       preLoaderRoute: typeof PublicLoginImport
@@ -84,8 +84,8 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  AuthRoute.addChildren([AuthPoliciesRoute, AuthProfileRoute, AuthIndexRoute]),
-  PublicRoute.addChildren([PublicLoginRoute]),
+  AuthRoute.addChildren([AuthProfileRoute, AuthIndexRoute]),
+  PublicRoute.addChildren([PublicAuthCallbackRoute, PublicLoginRoute]),
 ])
 
 /* prettier-ignore-end */
