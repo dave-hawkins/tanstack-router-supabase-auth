@@ -26,6 +26,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 					const { data, error } = await supabase.auth.signInWithOAuth({
 						provider: "google",
 					});
+					console.log("AuthProvider.login -> data", data);
 					// supabase.auth.getSession().then(({ data }) => {});
 					// console.log("login with google");
 					break;
@@ -52,6 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 		 */
 	}, []);
 
+	// event listener for auth state changes
 	React.useEffect(() => {
 		const {
 			data: { subscription },
