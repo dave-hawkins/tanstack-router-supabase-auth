@@ -13,10 +13,9 @@
 import { Route as rootRoute } from './routes/__root'
 import { Route as PublicImport } from './routes/_public'
 import { Route as AuthImport } from './routes/_auth'
-import { Route as AuthIndexImport } from './routes/_auth.index'
-import { Route as PublicLoginImport } from './routes/_public.login'
-import { Route as AuthProfileImport } from './routes/_auth.profile'
-import { Route as AuthPoliciesImport } from './routes/_auth.policies'
+import { Route as AuthIndexImport } from './routes/_auth/index'
+import { Route as PublicLoginImport } from './routes/_public/login'
+import { Route as AuthProfileImport } from './routes/_auth/profile'
 
 // Create/Update Routes
 
@@ -45,11 +44,6 @@ const AuthProfileRoute = AuthProfileImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const AuthPoliciesRoute = AuthPoliciesImport.update({
-  path: '/policies',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
@@ -61,10 +55,6 @@ declare module '@tanstack/react-router' {
     '/_public': {
       preLoaderRoute: typeof PublicImport
       parentRoute: typeof rootRoute
-    }
-    '/_auth/policies': {
-      preLoaderRoute: typeof AuthPoliciesImport
-      parentRoute: typeof AuthImport
     }
     '/_auth/profile': {
       preLoaderRoute: typeof AuthProfileImport
@@ -84,7 +74,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren([
-  AuthRoute.addChildren([AuthPoliciesRoute, AuthProfileRoute, AuthIndexRoute]),
+  AuthRoute.addChildren([AuthProfileRoute, AuthIndexRoute]),
   PublicRoute.addChildren([PublicLoginRoute]),
 ])
 

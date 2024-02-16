@@ -2,7 +2,7 @@ import React from "react"; // Ensure this import is at the top of your file
 
 import { createFileRoute } from "@tanstack/react-router";
 import { z } from "zod";
-import { auth } from "../utils/auth";
+import { auth } from "../../utils/auth";
 
 export const Route = createFileRoute("/_public/login")({
 	validateSearch: z.object({
